@@ -1,4 +1,4 @@
-import axios from "axios";
+/* import axios from "axios";
 
  const getAllPokemon = () => {
   axios
@@ -11,4 +11,4 @@ import axios from "axios";
     });
 };
 
-export default getAllPokemon;
+export default getAllPokemon; */
