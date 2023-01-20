@@ -1,0 +1,14 @@
+.container-cardPokemon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width:200px;
+  height:200px;
+  background-color: aliceblue;
+  border: 1px solid red;
+  margin: 2px;
+  z-index: 99999;
+}
+
+
