@@ -13,21 +13,24 @@ function Provider({ children }) {
     for (var i = 1; i < 50; i++) {
       endpoints.push(`https://pokeapi.co/api/v2/pokemon/${i}/`);
     }
-    /* console.log(endpoints); */
-    var response = axios.all(endpoints.map((endpoint)=> axios.get(endpoint))).then((res)=> setListPokemon(res));
+   
+    var response = axios
+      .all(endpoints.map((endpoint) => axios.get(endpoint)))
+      .then((res) => setListPokemon(res));
     return response;
-    /*    axios
-      .get("https://pokeapi.co/api/v2/pokemon?limit=150")
-      .then((response) => {
-        setListPokemon(response.data.results);
-        console.log(response.data.results);
-      })
-      .catch((err) => {
-        console.error(err);
-      }); */
+   
   };
 
-  
+  const pokemonFilter = (name) => {
+    var filtroPokemon = [];
+    for (var i in listPokemon) {
+      if (listPokemon[i].data.name.includes(name)) {
+        filtroPokemon.push(listPokemon[i]);
+      }
+    }
+    setListPokemon(filtroPokemon);
+  };
+
   const contextValue = {
     listPokemon,
     setListPokemon,

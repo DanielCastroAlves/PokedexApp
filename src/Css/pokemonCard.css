@@ -3,12 +3,14 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width:200px;
+  width:170px;
   height:200px;
-  background-color: aliceblue;
-  border: 1px solid red;
+  background-color: rgb(0, 0, 0);
+  border: 1px solid rgb(60, 255, 0);
+  color: rgb(60, 255, 0);;
   margin: 2px;
   z-index: 99999;
+  margin: 10px;
 }
 
 
