@@ -1,14 +1,32 @@
-import React, { useContext } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import PokemonCard from "../Componets/PokemonCard";
-import AppContext from "../Context/AppContext";
+
 import "../Css/home.css";
 
 export default function Home() {
-  const {listPokemon, setListPokemon} = useContext(AppContext);
-  console.log(listPokemon);
+  const [listPokemon, setListPokemon] = useState([]);
 
+  useEffect(() => {
+    getAllPokemon();
+  }, []);
+
+  const getAllPokemon = () => {
+    var endpoints = [];
+    for (var i = 1; i < 50; i++) {
+      endpoints.push(`https://pokeapi.co/api/v2/pokemon/${i}/`);
+    }
+
+    var response = axios
+      .all(endpoints.map((endpoint) => axios.get(endpoint)))
+      .then((res) => setListPokemon(res));
+    return response;
+  };
   const pokemonFilter = (name) => {
     var filtroPokemon = [];
+    if (name === "") {
+      getAllPokemon();
+    }
     for (var i in listPokemon) {
       if (listPokemon[i].data.name.includes(name)) {
         filtroPokemon.push(listPokemon[i]);
@@ -19,12 +37,15 @@ export default function Home() {
 
   return (
     <div className="container-homePage">
-      <input
-        type="text"
-        name=""
-        id=""
-        onChange={(e) => pokemonFilter(e.target.value)}
-      />
+      <div className="input-pesquisa">
+        <label>Digite o nome do pokemon que deseja pesquisar...</label>
+        <input
+          type="text"
+          name=""
+          id=""
+          onChange={(e) => pokemonFilter(e.target.value)}
+        />
+      </div>
       <div className="tela-principal">
         {listPokemon &&
           listPokemon.map((dados) => (

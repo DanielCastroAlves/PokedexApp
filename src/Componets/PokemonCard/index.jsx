@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "../../Css/pokemonCard.css";
 
 export default function PokemonCard({ nome, tipo, img }) {
