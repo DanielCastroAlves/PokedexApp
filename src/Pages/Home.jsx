@@ -13,7 +13,7 @@ export default function Home() {
 
   const getAllPokemon = () => {
     var endpoints = [];
-    for (var i = 1; i < 50; i++) {
+    for (var i = 1; i < 150; i++) {
       endpoints.push(`https://pokeapi.co/api/v2/pokemon/${i}/`);
     }
 
@@ -36,26 +36,28 @@ export default function Home() {
   };
 
   return (
-    <div className="container-homePage">
-      <div className="input-pesquisa">
-        <label>Digite o nome do pokemon que deseja pesquisar...</label>
-        <input
-          type="text"
-          name=""
-          id=""
-          onChange={(e) => pokemonFilter(e.target.value)}
-        />
-      </div>
-      <div className="tela-principal">
-        {listPokemon &&
-          listPokemon.map((dados) => (
-            <PokemonCard
-              key={dados.data.name}
-              nome={dados.data.name}
-              tipo={dados.data.types[0].type.name}
-              img={dados.data.sprites}
-            />
-          ))}
+    <div className="homePage">
+      <div className="pokedex">
+        <div className="input-pesquisa">
+          <label>Procurar Pokemon:</label>
+          <input
+            type="text"
+            name=""
+            id=""
+            onChange={(e) => pokemonFilter(e.target.value)}
+          />
+        </div>
+        <div className="tela-principal">
+          {listPokemon &&
+            listPokemon.map((dados) => (
+              <PokemonCard
+                key={dados.data.name}
+                nome={dados.data.name}
+                tipo={dados.data.types[0].type.name}
+                img={dados.data.sprites}
+              />
+            ))}
+        </div>
       </div>
     </div>
   );
