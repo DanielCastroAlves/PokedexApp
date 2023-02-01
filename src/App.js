@@ -1,10 +1,11 @@
-import Home from './Pages/Home'
+
 import './App.css';
+import Pokedex from './Pages/Home';
 /* import Provider from './Context/Provider'; */
 
 function App() {
   return (
-     <Home />
+     <Pokedex />
   /*   <Provider>
     </Provider> */
   );

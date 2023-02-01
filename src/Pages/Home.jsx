@@ -1,64 +1,46 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import PokemonCard from "../Componets/PokemonCard";
+import React, { useState, useEffect } from 'react';
+import '../Css/pokemonCard.css';
 
-import "../Css/home.css";
+const API_URL = 'https://pokeapi.co/api/v2/pokemon?limit=10';
 
-export default function Home() {
-  const [listPokemon, setListPokemon] = useState([]);
+const PokemonCard = ({ pokemon }) => (
+  <div className="pokemon-card">
+    <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`} alt={pokemon.name} onError={(e) => {
+      e.target.onerror = null;
+      e.target.src = "/default.png";
+    }} />
+    <h2>{pokemon.name}</h2>
+    <p>Type: {pokemon.types && pokemon.types.length > 0 ? pokemon.types[0].type.name : 'Unknown'}</p>
+
+  </div>
+);
+
+const Pokedex = () => {
+  const [pokemonList, setPokemonList] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    getAllPokemon();
+    fetch(API_URL)
+      .then(response => response.json())
+      .then(({ results }) => {
+        setPokemonList(results);
+      });
   }, []);
 
-  const getAllPokemon = () => {
-    var endpoints = [];
-    for (var i = 1; i < 150; i++) {
-      endpoints.push(`https://pokeapi.co/api/v2/pokemon/${i}/`);
-    }
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
 
-    var response = axios
-      .all(endpoints.map((endpoint) => axios.get(endpoint)))
-      .then((res) => setListPokemon(res));
-    return response;
-  };
-  const pokemonFilter = (name) => {
-    var filtroPokemon = [];
-    if (name === "") {
-      getAllPokemon();
-    }
-    for (var i in listPokemon) {
-      if (listPokemon[i].data.name.includes(name)) {
-        filtroPokemon.push(listPokemon[i]);
-      }
-    }
-    setListPokemon(filtroPokemon);
-  };
+  const filteredPokemonList = pokemonList.filter(pokemon => pokemon.name.toLowerCase().includes(searchTerm.toLowerCase()));
 
   return (
-    <div className="homePage">
-      <div className="pokedex">
-        <div className="input-pesquisa">
-          <label>Procurar Pokemon:</label>
-          <input
-            type="text"
-            name=""
-            id=""
-            onChange={(e) => pokemonFilter(e.target.value)}
-          />
-        </div>
-        <div className="tela-principal">
-          {listPokemon &&
-            listPokemon.map((dados) => (
-              <PokemonCard
-                key={dados.data.name}
-                nome={dados.data.name}
-                tipo={dados.data.types[0].type.name}
-                img={dados.data.sprites}
-              />
-            ))}
-        </div>
-      </div>
+    <div className="pokedex">
+      <input type="text" placeholder="Search for a Pokemon" value={searchTerm} onChange={handleSearch} />
+      {filteredPokemonList.map((pokemon, index) => (
+        <PokemonCard key={index} pokemon={{ ...pokemon, id: index + 1 }} />
+      ))}
     </div>
   );
-}
+};
+
+export default Pokedex;
